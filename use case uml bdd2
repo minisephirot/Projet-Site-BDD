@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+:utilisateurA: --(s'inscrire)
+:utilisateurA: --(consulter liste inscrits)
+:utilisateurA: --(consulter liste artistes)
+:utilisateurA: --(consulter liste médias)
+:utilisateurA: --(consulter statistiques)
+
+
+:utilisateurC: --(consulter liste inscrits)
+:utilisateurC: --(consulter liste artistes)
+:utilisateurC: --(consulter liste médias)
+:utilisateurC: --(consulter statistiques)
+:utilisateurC: --(consulter profil)
+:utilisateurC: --(partager)
+:utilisateurC: --(consulter ses statistiques)
+
+(partager) .> (authentifier utilisateur) : <<include>>
+(consulter profil) .> (authentifier utilisateur) : <<include>>
+(consulter ses statistiques) .> (authentifier utilisateur) : <<include>>
+
+
+@enduml
