@@ -1,12 +1,12 @@
 -- -----------------------------------------------------------------------------
---             Génération d'une base de données pour
+--             GÃ©nÃ©ration d'une base de donnÃ©es pour
 --                      Oracle Version 10g
---                        (12/4/2017 15:36:16)
+--                        (12/4/2017 16:07:41)
 -- -----------------------------------------------------------------------------
 --      Nom de la base : BDD_Model Relationnel nouveau sujet
 --      Projet : 
 --      Auteur : This
---      Date de dernière modification : 12/4/2017 15:36:10
+--      Date de derniÃ¨re modification : 12/4/2017 15:59:11
 -- -----------------------------------------------------------------------------
 
 DROP TABLE MUSIQUE CASCADE CONSTRAINTS;
@@ -45,8 +45,8 @@ CREATE TABLE MUSIQUE
    (
     TITRE CHAR(32)  NOT NULL,
     NOM_ALBUM CHAR(32)  NOT NULL,
-    DURÉE CHAR(16)  NULL,
-    GENRE CHAR(32)  NULL
+    DURÃ‰E CHAR(16)  NOT NULL,
+    GENRE CHAR(32)  NOT NULL
 ,   CONSTRAINT PK_MUSIQUE PRIMARY KEY (TITRE)  
    ) ;
 
@@ -68,7 +68,7 @@ CREATE  INDEX I_FK_MUSIQUE_ALBUM
 
 CREATE TABLE LIVRE
    (
-    GENRE CHAR(32)  NULL,
+    GENRE CHAR(32)  NOT NULL,
     TITRE CHAR(32)  NOT NULL
 ,   CONSTRAINT PK_LIVRE PRIMARY KEY (TITRE)  
    ) ;
@@ -107,10 +107,10 @@ CREATE  INDEX I_FK_FILM_MEDIA
 CREATE TABLE MEDIA
    (
     TITRE CHAR(32)  NOT NULL,
-    EDITEUR CHAR(32)  NULL,
-    DATE_EDITION DATE  NULL,
+    EDITEUR CHAR(32)  NOT NULL,
+    DATE_EDITION DATE  NOT NULL,
     URL CHAR(128)  NULL,
-    NB_PARTAGE NUMBER(10,2)  NULL,
+    NB_PARTAGE NUMBER(10,2)  NOT NULL,
     NOM_ARTISTE CHAR(32)  NOT NULL
 ,   CONSTRAINT PK_MEDIA PRIMARY KEY (TITRE)  
    ) ;
