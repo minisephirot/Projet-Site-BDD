@@ -9,7 +9,7 @@ SELECT pseudo, code_postal FROM UTILISATEUR;
 
 2) Liste des artistes :
 
-SELECT nom_artiste FROM ARTISTE
+SELECT nom_artiste FROM ARTISTE;
 
 3) Liste Média (url nonnull si présent ):
 
@@ -21,13 +21,13 @@ Global :
 SELECT nom_artiste,nb_scrob_total FROM V_SCROB_ARTISTE
 ORDER BY nb_scrob_total ASC;
 
-SELECT nom_artiste,nb_scrob_total FROM V_SCROB_ARTISTE_SEMAINE
+SELECT nom_artiste,nb_scrob_semaine FROM V_SCROB_ARTISTE_SEMAINE
 ORDER BY nb_scrob_semaine ASC;
 
-SELECT titre,nb_scrob_total FROM MEDIA
+SELECT titre,nb_scrob_total FROM V_SCROB_MEDIA
 ORDER BY nb_scrob_total ASC;
 
-SELECT titre,nb_scrob_total FROM V_SCROB_MEDIA_SEMAINE
+SELECT titre,nb_scrob_semaine FROM V_SCROB_MEDIA_SEMAINE
 ORDER BY nb_scrob_semaine ASC;
 
 5) Informations d'un connecté sur les inscrits :
@@ -39,11 +39,11 @@ WHERE pseudo = STR_USER;
 6) Avoir accès a ses propres statistiques :
 
 SELECT nom_artiste, nb_scrob_total FROM V_STAT_ARTISTE
-WHERE pseudo = SON_PSEUDO
+WHERE pseudo = "SON_PSEUDO"
 ORDER BY nb_scrob_total ASC;
 
 SELECT titre, nb_scrob_total FROM V_STAT_ARTISTE
-WHERE pseudo = SON_PSEUDO
+WHERE pseudo = "SON_PSEUDO"
 ORDER BY nb_scrob_total ASC;
 
 7) Se connecter :
