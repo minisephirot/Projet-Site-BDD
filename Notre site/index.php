@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -46,7 +49,13 @@
 							<li><a href="listeuser.php">Voir les Utilisateurs</a></li>
 						</ul>
 					</li>
-					<li><a href="login.php">Connexion</a></li>
+					<?php 
+					if (empty($_SESSION['pseudo'])){
+					echo '<li><a href="login.php">Connexion</a></li>';
+					}else{
+					echo '<li><a href="deconnexion.php">Deconnexion</a></li>';
+					}
+					?>
 				</ul>
 			</div>
 		</div>
