@@ -1,3 +1,10 @@
+.corps{
+ 		background: #3E3489;
+		color: #000000;
+		font-family: 'Montserrat', sans-serif;
+		margin-top: 10px;
+		margin-left: 50px;
+}
 .navbar {
 		margin-bottom: 0;
 	}
