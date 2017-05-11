@@ -56,14 +56,23 @@ function addArtiste($nomArtiste, $nom, $prenom){
 
 function existeArtiste($nomArtiste){
   global $conn;
-  $query = "select count(nomArtiste) from artiste where nomArtiste = $nomArtiste";
-  return execute($query);
+  connect();
+  $query = "select nomArtiste from artiste where nomArtiste = $nomArtiste";
+  $stid=oci_parse($conn,$query);
+  oci_execute($stid);
+  $result = array();
+  return oci_fetch_all($stid, $result);
 }
 
 function existeMedia($titre){
   global $conn;
-  $query = "select count(titre) from media where nomArtiste = $titre";
-  return execute($query);
+  connect();
+  $query = "select titre from media where nomArtiste = $titre";
+  $stid=oci_parse($conn,$query);
+  oci_execute($stid);
+  $result = array();
+  oci_close($conn);
+  return oci_fetch_all($stid, $result);
 }
 
 
@@ -74,11 +83,63 @@ function existeUtilisateur($pseudo,$mdp){
   $stid=oci_parse($conn,$query);
   oci_execute($stid);
   $result = array();
+  oci_close($conn);
   return oci_fetch_all($stid, $result);
 }
 
 
+function ajouterLivre($nomArtiste,$titre,$genre,$date,$langue,$edit){
+  global $conn;
+  connect();
+  $sql = "INSERT INTO MEDIA VALUES ('$nomArtiste','$titre','$date','$langue','$edit')";
+  $stid = oci_parse($conn, $sql);
+  oci_execute($stid);
+  
+  $sql = "INSERT INTO LIVRE VALUES ('$nomArtiste','$titre','$genre')";
+  $stid = oci_parse($conn, $sql);
+  oci_execute($stid);
+  
+  oci_commit();
+  echo oci_num_rows($stid);
+  oci_close($conn);
+  return oci_num_rows($stid);
+}
 
+function ajouterMusique($nomArtiste,$titre,$duree,$genre,$type,$date,$langue,$edit){
+  global $conn;
+  connect();
+  $sql = "INSERT INTO MEDIA VALUES ('$nomArtiste','$titre','$date','$langue','$edit')";
+  $stid = oci_parse($conn, $sql);
+  oci_execute($stid);
+  
+  $sql = "INSERT INTO TITRE_MUSICAL VALUES ('$nomArtiste','$titre',$duree,'$genre','$type')";
+  echo $sql;
+  $stid = oci_parse($conn, $sql);
+  oci_execute($stid);
+  
+  oci_commit();
+  oci_close($conn);
+  echo oci_num_rows($stid);
+  return oci_num_rows($stid);
+}
+
+
+function ajouterFilm($nomArtiste,$titre,$genre,$date,$langue,$edit){
+  global $conn;
+  connect();
+  $sql = "INSERT INTO MEDIA VALUES ('$nomArtiste','$titre','$date','$langue','$edit')";
+  $stid = oci_parse($conn, $sql);
+  oci_execute($stid);
+  
+  $sql = "INSERT INTO FILM VALUES ('$nomArtiste','$titre','$genre')";
+  $stid = oci_parse($conn, $sql);
+  oci_execute($stid);
+  
+  oci_commit();
+  oci_close($conn);
+  echo oci_num_rows($stid);
+  return oci_num_rows($stid);
+}
 
 
 ?>
