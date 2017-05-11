@@ -22,17 +22,19 @@
 	  font-family: sans-serif;
 	}
 	.corps{
-			background: #3E3489;
+			background: #5b4ebf;
 			color: #000000;
 			font-family: 'Montserrat', sans-serif;
 			margin-top: 10px;
 			margin-left: 50px;
+			margin: auto;
+			width: 50%;
 	}
 	.navbar {
 			margin-bottom: 0;
 	}
 	body {
-		background: #3E3489;
+		background: #5b4ebf;
 		color: #f7f7f7;
 		font-family: 'Montserrat', sans-serif;
 	}
