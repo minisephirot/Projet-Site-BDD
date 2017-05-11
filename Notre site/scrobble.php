@@ -64,21 +64,16 @@ session_start();
 		</div>
 		</nav>
 					  <div class="corps">
-			<?php 
-					if (!empty($_SESSION['pseudo'])){
-					
-					    echo " <h2>Bonjour ".$_SESSION['pseudo'].", voici vos scrobble :</h2>";
-                    
+<?php 
+    if (!empty($_SESSION['pseudo'])){
+	echo " <h2>Bonjour ".$_SESSION['pseudo'].", voici vos scrobble :</h2>";
                 $db="(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle.depinfo.uhp-nancy.fr)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=depinfo)))";
 		$user = "etud008";
 		$passwd = "jonathan";
-		
 		  // Check connection
 		  if($link = oci_connect("$user", "$passwd",$db)){
-
 			$stid = oci_parse($link, "SELECT * FROM SCROBBLING WHERE PSEUDO = '".$_SESSION['pseudo']."'");
 			oci_execute($stid);
-
 			echo "<table border='1'> <th>Nom d'artiste</th>   <th>Titre</th> <th>Pseudo</th> <th>Date</th>	\n";
 			while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS))
 			{
@@ -89,20 +84,16 @@ session_start();
 			  echo "</tr>\n";
 			}
 			echo "</table>\n";
-		  
 		  }else{
 		    $e = oci_error();   // Pour les erreurs oci_connect, aucun paramètre n'est passé
 		    echo htmlentities($e['message']);
 		    die();
 		  }
 		  oci_close($link);
-
 		  // define variables and set to empty values
 		    $nomArtisteErr = $titreErr = "";
 		    $nomArtiste = $titre = "";
-
 		    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
 		      if (empty($_POST["nomArtiste"])) {
 			$nomArtisteErr = "Name is required";
 		      } else {
@@ -112,7 +103,6 @@ session_start();
 			  $nomArtisteErr = "Only letters and white space allowed";
 			}
 		      }
-		      
 		      if (empty($_POST["titre"])) {
 			$titreErr = "titre is required";
 		      } else {
@@ -122,30 +112,8 @@ session_start();
 			  $titreErr = "Only letters and white space allowed";
 			}
 		      }
-
 		    }
-
-		    function test_input($data) {
-		      $data = trim($data);
-		      $data = stripslashes($data);
-		      $data = htmlspecialchars($data);
-		      return $data;
-		    }
-
-		/*    echo '
-		    <h2>Insertion de Scrobble</h2>
-		    <p><span class="error">* required field.</span></p>
-		    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-		      Nom artiste: <input type="text" name="nomArtiste" value="<?php echo $nomArtiste;?>">
-		      <span class="error">* <?php echo $nomArtisteErr;?></span>
-		      <br><br>
-		      Titre: <input type="text" name="titre" value="<?php echo $titre;?>">
-		      <span class="error">* <?php echo $titreErr;?></span>
-		      <br><br>
-		      <input type="submit" name="submit" value="Submit">  
-		    </form>';*/
-		    
-
+		        
 		    echo '<h2>Insertion de Scrobble</h2>
 		    <p><span class="error">* required field.</span></p>';
 		    echo '<form method="post" action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'">';
@@ -157,16 +125,13 @@ session_start();
 		    echo '<br><br>';
 		    echo '<input type="submit" name="submit" value="Submit">  
 		    </form>';
-
-		    echo "<br>";echo "<br>";
-		    if(isset($_POST['submit']))
-		    {
+		    echo "<br>";
+		    echo "<br>";
+		    
+		    if(isset($_POST['submit'])){
 		      echo "test";
-		      $db="(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle.depinfo.uhp-nancy.fr)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=depinfo)))";
-		      $user = "etud008";
-		      $passwd = "jonathan";
 			// Check connection
-			if($link = oci_connect("$user", "$passwd",$db)){
+			if($link = oci_connect($user,$passwd,$db)){
 			      $sql = "INSERT INTO SCROBBLING (NOM_ARTISTE,TITRE,PSEUDO) VALUES ('$nomArtiste','$titre','".$_SESSION['pseudo']."')";
 			      echo $sql;
 			      $stid = oci_parse($link, $sql);
@@ -192,7 +157,14 @@ session_start();
 		  echo "Vous devez être connecté pour pouvoir scrobbler.";
 		  header( "refresh:5;url=login.php" );
 		}
-			?>
+		
+function test_input($data) {
+$data = trim($data);
+$data = stripslashes($data);
+$data = htmlspecialchars($data);
+return $data;
+}
+?>
 				  		</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
