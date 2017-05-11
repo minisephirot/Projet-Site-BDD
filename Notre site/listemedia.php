@@ -1,3 +1,7 @@
+<?php 
+session_start();
+include "fonction.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -144,6 +148,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
   
+   if (empty($_POST["genre"])) {
+    $genreErr = "Genre is required";
+  } else {
+    $genre = test_input($_POST["genre"]);
+    // check if e-mail address is well-formed
+    if (!preg_match("/^[a-zA-Z ]*$/",$genre)) {
+      $genreErr = "Only letters and white space allowed";
+    }
+  }
+  
  }
 
 function test_input($data) {
@@ -157,6 +171,12 @@ function test_input($data) {
 <h2>Insertion d'Auteur</h2>
 <p><span class="error">* required field.</span></p>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+    Type de média : <SELECT name="typeMedia" size="1">
+      <OPTION>film
+      <OPTION>musique
+      <OPTION>livre
+    </SELECT>
+  <br><br>
   Nom de l'artiste: <input type="text" name="nomArtiste" value="<?php echo $nomArtiste;?>">
   <span class="error">* <?php echo $nomArtisteErr;?></span>
   <br><br>
@@ -172,34 +192,51 @@ function test_input($data) {
   Editeur: <input type="text" name="editeur" value="<?php echo $edit;?>">
   <span class="error">* <?php echo $editErr;?></span>
   <br><br>
-  <input type="submit" name="submit" value="Submit">  
+  Genre: <input type="text" name="genre" value="<?php echo $genre;?>">
+  <span class="error">* <?php echo $genreErr;?></span>
+   <br><br>
+  <input type="submit" name="submit" value="Submit">
+    <fieldset>
+    <legend>Musique :</legend>
+    Durée: <input type="number" name="duree"> min<br>
+    Type : <SELECT name="typeMusique" size="1">
+      <OPTION>single
+      <OPTION>full
+      <OPTION>mini
+    </SELECT>
+  </fieldset>
 </form>
 
 <?php
 echo "<br>";echo "<br>";
 if(isset($_POST['submit']))
 {
-  $db="(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle.depinfo.uhp-nancy.fr)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=depinfo)))";
-  $user = "etud008";
-  $passwd = "jonathan";
-    // Check connection
-    if($link = oci_connect("$user", "$passwd",$db)){
-          $sql = "INSERT INTO MEDIA VALUES ('$nomArtiste','$titre','$date','$langue','$edit')";
-	  $stid = oci_parse($link, $sql);
-	  if(oci_execute($stid)){
-	  	  echo "Data inséré dans la base, veuillez rafraichir pour voir la BDD actualisée.";
-		  oci_commit($link);
-	  }else{
-	    echo '<p class="error">Une erreur est survenue (nom auteur pas dans la liste ou média déja existant) </p>' ;
-	  }
+  $media = $_POST['typeMedia'];
+  $musique = $_POST['typeMusique'];
+  $duree = $_POST['duree'];
+  
+	    if( $media == "film"){
+	      if(ajouterFilm($nomArtiste,$titre,$genre,$date,$langue,$edit)==1){
+	      
+	      }else{
+		echo '<p class="error">Une erreur est survenue (genre du film) </p>' ;
+	      }
+	     }else if ($media == "musique"){
+	      if(ajouterMusique($nomArtiste,$titre,$duree,$genre,$musique,$date,$langue,$edit)==1){
+	      
+	      }else{
+		echo '<p class="error">Une erreur est survenue (genre de la musique) </p>' ;
+	      }
+	     }else if ($media =="livre"){
+	      if(ajouterLivre($nomArtiste,$titre,$genre,$date,$langue,$edit)==1){
+	  
+	      }else{
+		echo '<p class="error">Une erreur est survenue (genre du livre) </p>' ;
+	      }
+	     }  
 	  header('Location: listemedia.php');
 	  exit;
-    }else{
-      $e = oci_error();   // Pour les erreurs oci_connect, aucun paramètre n'est passé
-      echo htmlentities($e['message']);
-      die();
-    }
-    oci_close($link);
+
     echo "</br> Connexion terminée et fermée </br>";
 } 
 ?>
